@@ -86,6 +86,7 @@ function checkWin() {
   ) {
     onWin();
   } else if (cells.every((cell) => cell)) {
+    onDraw()
   }
 }
 

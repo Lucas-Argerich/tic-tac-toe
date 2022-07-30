@@ -52,7 +52,7 @@ function checkCell(index) {
       .getElementsByClassName("cellContent")[0].innerHTML =
       activePlayer === playerOne ? playerOneImage : playerTwoImage;
     checkWin();
-    changeActivePlayer();
+    !gameFinished && changeActivePlayer();
   }
 }
 
@@ -107,9 +107,16 @@ function checkWin() {
 }
 
 function initializeGame() {
-  activePlayer = playerOne;
+  activePlayer = activePlayer === playerOne ? playerTwo : playerOne;
   document.getElementById("playerTurn").innerHTML = activePlayer;
   gameFinished = false;
+
+  cells.fill(false);
+  cell.forEach(function (cell) {
+    cell.getElementsByClassName("cellContent")[0].innerHTML = "";
+  });
+  document.getElementById("resultMessageContainer").style.transform = "scale(0)";
+  document.getElementById("playAgain").classList.remove("active");
 
   cell.forEach(function (cell) {
     cell.addEventListener("click", function (e) {
@@ -119,21 +126,13 @@ function initializeGame() {
   });
 }
 
-function restartGame() {
-  cells.fill(false);
-  cell.forEach(function (cell) {
-    cell.getElementsByClassName("cellContent")[0].innerHTML = "";
-  });
-  gameFinished = false;
-  document.getElementById("resultMessage").style.transform = "scale(0)";
-  document.getElementById("playAgain").classList.remove("active");
-}
-
 document.getElementById("start-button").addEventListener("click", () => {
   changePlayerNames();
   updatePlayerNames();
-  toggleMenu();
+  restartScore();
   initializeGame();
+  toggleMenu();
 });
 document.getElementById("restartScore").addEventListener("click", restartScore);
-document.getElementById("playAgain").addEventListener("click", restartGame);
+document.getElementById("playAgain").addEventListener("click", initializeGame);
+document.getElementById("backToMenu").addEventListener("click", toggleMenu);

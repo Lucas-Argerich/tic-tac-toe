@@ -115,7 +115,8 @@ function initializeGame() {
   cell.forEach(function (cell) {
     cell.getElementsByClassName("cellContent")[0].innerHTML = "";
   });
-  document.getElementById("resultMessageContainer").style.transform = "scale(0)";
+  document.getElementById("resultMessageContainer").style.transform =
+    "scale(0)";
   document.getElementById("playAgain").classList.remove("active");
 
   cell.forEach(function (cell) {
@@ -125,6 +126,16 @@ function initializeGame() {
     });
   });
 }
+
+setTimeout(function () {
+  let viewHeight = $(window).height();
+  let viewWidth = $(window).width();
+  let viewport = document.querySelector("meta[name=viewport]");
+  viewport.setAttribute(
+    "content",
+    "height=" + viewHeight + "px, width=" + viewWidth + "px, initial-scale=1.0"
+  );
+}, 300);
 
 document.getElementById("start-button").addEventListener("click", () => {
   changePlayerNames();

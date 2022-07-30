@@ -9,6 +9,7 @@ body {
   justify-content: space-between;
   background: #F7F5FB;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 @media (max-width: 768px) {
@@ -27,7 +28,6 @@ body {
   display: flex;
   justify-content: center;
   transition: 2s;
-  overflow: hidden;
 }
 
 .menu-title {

@@ -19,9 +19,15 @@ function toggleMenu() {
   document.getElementById("menu").style.transform = deployedMenu
     ? "translateY(-150%)"
     : "translateY(0)";
-  document.getElementById("menu").style.overflow = deployedMenu
-    ? "visible"
-    : "hidden";
+  let img = document.createElement("img");
+  img.src = "./assets/wave.svg";
+  img.id = "wave";
+  deployedMenu
+    ? document.getElementById("menu").appendChild(img)
+    : document
+        .getElementById("menu")
+        .removeChild(document.getElementById("menu").lastChild);
+
   deployedMenu = !deployedMenu;
 }
 
@@ -126,16 +132,6 @@ function initializeGame() {
     });
   });
 }
-
-setTimeout(function () {
-  let viewHeight = $(window).height();
-  let viewWidth = $(window).width();
-  let viewport = document.querySelector("meta[name=viewport]");
-  viewport.setAttribute(
-    "content",
-    "height=" + viewHeight + "px, width=" + viewWidth + "px, initial-scale=1.0"
-  );
-}, 300);
 
 document.getElementById("start-button").addEventListener("click", () => {
   changePlayerNames();

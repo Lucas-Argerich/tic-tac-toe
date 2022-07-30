@@ -1,24 +1,25 @@
+let deployedMenu = true;
+
 const cells = [false, false, false, false, false, false, false, false, false];
 const cell = document.querySelectorAll(".cell");
 
-let playerOne = "Lucas";
+let playerOne = "Player 1";
 let playerOneImage = "<img src='./assets/cross.svg' />";
 let playerOneScore = 0;
 
-let playerTwo = "Computer";
+let playerTwo = "Player 2";
 let playerTwoImage = "<img src='./assets/circle.svg' />";
 let playerTwoScore = 0;
 
-let activePlayer = playerOne;
+let activePlayer = undefined;
 
 let gameFinished = false;
 
-function changeActivePlayer() {
-  if (activePlayer === playerOne) {
-    activePlayer = playerTwo;
-  } else {
-    activePlayer = playerOne;
-  }
+function toggleMenu() {
+  document.getElementById("menu").style.transform = deployedMenu
+    ? "translateY(-150%)"
+    : "translateY(0)";
+  deployedMenu = !deployedMenu;
 }
 
 function updatePlayerNames() {
@@ -27,13 +28,21 @@ function updatePlayerNames() {
 }
 
 function changePlayerNames() {
-  playerOne = prompt("Player One Name:");
-  playerTwo = prompt("Player Two Name:");
-  updatePlayerNames();
+  playerOne = document.getElementById("playerOneInput").value || "Player 1";
+  playerTwo = document.getElementById("playerTwoInput").value || "Player 2";
+}
+
+function changeActivePlayer() {
+  if (activePlayer === playerOne) {
+    activePlayer = playerTwo;
+  } else {
+    activePlayer = playerOne;
+  }
+  document.getElementById("playerTurn").innerHTML = activePlayer;
 }
 
 function checkCell(index) {
-  if (!gameFinished && !cells[index]) {
+  if (!gameFinished && typeof cells[index] === "boolean") {
     cells[index] = activePlayer;
     document
       .getElementById(`cell${index + 1}`)
@@ -60,17 +69,19 @@ function onWin() {
     playerOneScore++;
   } else {
     playerTwoScore++;
-  } 
+  }
   updateScore();
   document.getElementById("resultMessage").innerHTML = `${activePlayer} wins!`;
-  document.getElementById("resultMessage").style.transform = "scale(1)";
+  document.getElementById("resultMessageContainer").style.transform = "scale(1)";
   gameFinished = true;
+  document.getElementById("playAgain").classList.add("active");
 }
 
 function onDraw() {
   document.getElementById("resultMessage").innerHTML = "Draw!";
-  document.getElementById("resultMessage").style.transform = "scale(1)";
+  document.getElementById("resultMessageContainer").style.transform = "scale(1)";
   gameFinished = true;
+  document.getElementById("playAgain").classList.add("active");
 }
 
 function checkWin() {
@@ -86,8 +97,20 @@ function checkWin() {
   ) {
     onWin();
   } else if (cells.every((cell) => cell)) {
-    onDraw()
+    onDraw();
   }
+}
+
+function initializeGame() {
+  activePlayer = playerOne;
+  gameFinished = false;
+
+  cell.forEach(function (cell) {
+    cell.addEventListener("click", function (e) {
+      const index = e.target.id[4] - 1;
+      checkCell(index);
+    });
+  });
 }
 
 function restartGame() {
@@ -97,17 +120,14 @@ function restartGame() {
   });
   gameFinished = false;
   document.getElementById("resultMessage").style.transform = "scale(0)";
-
+  document.getElementById("playAgain").classList.remove("active");
 }
 
-cell.forEach(function (cell) {
-  cell.addEventListener("click", function (e) {
-    const index = e.target.id[4] - 1;
-    checkCell(index);
-  });
+document.getElementById("start-button").addEventListener("click", () => {
+  changePlayerNames();
+  updatePlayerNames();
+  toggleMenu();
+  initializeGame();
 });
-
-updatePlayerNames();
-document.getElementById("restartGame").addEventListener("click", restartGame);
 document.getElementById("restartScore").addEventListener("click", restartScore);
-document.getElementById("changePlayerNames").addEventListener("click", changePlayerNames);
+document.getElementById("playAgain").addEventListener("click", restartGame);

@@ -19,6 +19,9 @@ function toggleMenu() {
   document.getElementById("menu").style.transform = deployedMenu
     ? "translateY(-150%)"
     : "translateY(0)";
+  document.getElementById("menu").style.overflow = deployedMenu
+    ? "visible"
+    : "hidden";
   deployedMenu = !deployedMenu;
 }
 
@@ -72,14 +75,16 @@ function onWin() {
   }
   updateScore();
   document.getElementById("resultMessage").innerHTML = `${activePlayer} wins!`;
-  document.getElementById("resultMessageContainer").style.transform = "scale(1)";
+  document.getElementById("resultMessageContainer").style.transform =
+    "scale(1)";
   gameFinished = true;
   document.getElementById("playAgain").classList.add("active");
 }
 
 function onDraw() {
   document.getElementById("resultMessage").innerHTML = "Draw!";
-  document.getElementById("resultMessageContainer").style.transform = "scale(1)";
+  document.getElementById("resultMessageContainer").style.transform =
+    "scale(1)";
   gameFinished = true;
   document.getElementById("playAgain").classList.add("active");
 }

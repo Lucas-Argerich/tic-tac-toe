@@ -108,6 +108,7 @@ function checkWin() {
 
 function initializeGame() {
   activePlayer = playerOne;
+  document.getElementById("playerTurn").innerHTML = activePlayer;
   gameFinished = false;
 
   cell.forEach(function (cell) {

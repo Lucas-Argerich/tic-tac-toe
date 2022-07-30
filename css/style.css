@@ -10,6 +10,7 @@ body {
   background: #F7F5FB;
   min-height: 100vh;
   overflow-x: hidden;
+  position: relative;
 }
 
 @media (max-width: 768px) {
@@ -22,8 +23,7 @@ body {
   position: absolute;
   top: 0;
   width: 100%;
-  height: -moz-available;
-  height: -webkit-fill-available;
+  height: 100%;
   background: #118AB2;
   z-index: 2;
   display: flex;
